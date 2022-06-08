@@ -1,7 +1,8 @@
-import { View, Text, TextInput, Button, TouchableOpacity, ScrollView, Touchable } from 'react-native';
+import { View, Text,TouchableOpacity, ScrollView } from 'react-native';
 import { useState } from 'react';
 import { showMessage } from 'react-native-flash-message';
 import { Ionicons } from '@expo/vector-icons';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 import Person from '../interfaces/Person';
 import { forms, base, typo } from '../styles/index';
@@ -70,22 +71,41 @@ export default function Home({ navigation, persons, setPersons }:HomeScreen) {
     });
 
     return (
-        <View style={base.styles.centerFlex1}>
+        <KeyboardAwareScrollView
+            contentContainerStyle={base.styles.center}
+            keyboardShouldPersistTaps='always'
+        >
             <Text 
                 style={[typo.styles.h2, base.styles.padding12LR, base.styles.margin12TopBottom]}
             >
                 Add person
             </Text>
             <AddPersonForm
-            navigation={navigation}
             person={person}
-            persons={persons}
             setPerson={setPerson}
             addPerson={addPerson}
             />
-            <ScrollView style={base.styles.personsScrollView}>
+
+            <TouchableOpacity
+                style={[forms.styles.formButton, base.styles.margin12LR]}
+                onPress={() => {
+                    if (persons.length < 2) {
+                        showMessage({
+                            message: 'At least two people',
+                            description: 'You need to add at least two people',
+                            type: 'warning'
+                        });
+                        return;
+                    }
+                    navigation.navigate('Löneformulär');
+                }}
+            >
+                <Text style={typo.styles.buttonText}>Continue</Text>
+            </TouchableOpacity>
+
+            <View style={base.styles.personsView}>
                 {personsToRender}
-            </ScrollView>
-        </View>
+            </View>
+        </KeyboardAwareScrollView>
     );
 }

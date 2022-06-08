@@ -1,12 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { View, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import FlashMessage from 'react-native-flash-message';
 
-import { forms, base } from './styles/index';
+import { base } from './styles/index';
 import { rootParamList } from './types/rootNavigation';
 import SalaryForm from './components/SalaryForm';
 import Header from './components/Header';
@@ -29,7 +28,7 @@ export default function App() {
             {(screenProps) => <Home {...screenProps} persons={persons} setPersons={setPersons}/>}
           </Stack.Screen>
           <Stack.Screen name={'Löneformulär'} options={{headerShown: false}}>
-            {() => <SalaryForm persons={persons} setPersons={setPersons}/>}
+            {(screenprops) => <SalaryForm {...screenprops} persons={persons} setPersons={setPersons}/>}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

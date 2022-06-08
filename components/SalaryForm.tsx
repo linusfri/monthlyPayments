@@ -1,13 +1,13 @@
-import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import salaryModel from '../models/salaryModel';
 import salaryForm from '../types/screens/salaryForm';
 import Person from '../interfaces/Person';
-import { forms, base, typo } from '../styles/index';
+import { forms, typo } from '../styles/index';
 
-export default function SalaryFormCp ({ persons, setPersons }:salaryForm) {
+export default function SalaryForm ({navigation, persons, setPersons }:salaryForm) {
     const [totalToPay, setTotalToPay] = useState<string>('');
     const [results, setResults] = useState<string>('');
 
@@ -67,14 +67,23 @@ export default function SalaryFormCp ({ persons, setPersons }:salaryForm) {
             value={results}
             />
             <TouchableOpacity
-                style={forms.styles.formButton}
+                style={forms.styles.formButtonExtraPadding}
                 onPress={() => {
-                    // setResults(salaryModel.calculate(salaries, totalToPay));
                     setResults(salaryModel.calculateObj(persons, totalToPay));
                 }}
             >
                 <Text style={typo.styles.buttonText}>
                     Calculate
+                </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+                style={forms.styles.formButton}
+                onPress={() => {
+                    navigation.navigate('Hem');
+                }}
+            >
+                <Text style={typo.styles.buttonText}>
+                    Go back
                 </Text>
             </TouchableOpacity>
       </KeyboardAwareScrollView>

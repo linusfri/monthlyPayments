@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     marginTop: 12
   },
 
-  personsScrollView: {
+  personsView: {
     flexGrow: 1,
     paddingLeft: 12,
     paddingRight: 12,
@@ -66,8 +66,8 @@ const styles = StyleSheet.create({
     marginRight: mainAppPadding,
     borderStyle: 'solid',
     borderWidth: 1,
-    borderRadius: 4,
-    borderColor: 'rgba(0,0,0,0.1)'
+    borderRadius: 2,
+    borderColor: 'rgba(0,0,0,0.1)',
   },
 
   homeTextPlaceholder: {
@@ -94,11 +94,7 @@ const styles = StyleSheet.create({
   
   center: {
     justifyContent: 'center',
-  },
-
-  centerFlex1: {
-    justifyContent: 'center',
-    flex: 1
+    minHeight: '95%'
   },
 
   margin12Top: {

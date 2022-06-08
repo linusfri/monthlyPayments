@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         marginTop: 6,
         marginBottom: 6,
         backgroundColor: '#2196F3',
-        borderRadius: 4
+        borderRadius: 2
     },
 
     salaryFormContainer: {
@@ -54,6 +54,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         paddingLeft: mainAppPadding,
         paddingRight: mainAppPadding,
+        marginTop: 12
     },
 
     personFormContainer: {
