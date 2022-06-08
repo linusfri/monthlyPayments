@@ -1,47 +1,51 @@
 import { View, Text, TextInput, TouchableOpacity, KeyboardAvoidingView } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 import salaryModel from '../models/salaryModel';
+import salaryForm from '../types/screens/salaryForm';
+import Person from '../interfaces/Person';
 import { forms, base, typo } from '../styles/index';
 
-export default function SalaryForm () {
+export default function SalaryFormCp ({ persons, setPersons }:salaryForm) {
     const [totalToPay, setTotalToPay] = useState<string>('');
     const [results, setResults] = useState<string>('');
-    const [salaries, setSalaries] = useState<string[]>(['', '']);
 
-    function updateSalariesByIndex(listIndex:number, newSalary:string) {
-        setSalaries(salaries.map((salary, index) => {
+    function updatePersonSalary(listIndex:number, newPerson:Person) {
+        setPersons(persons.map((person, index) => {
             if (listIndex === index) {
-                return newSalary;
+                return newPerson;
             }
-            return salary;
+            return person;
         }));
     }
 
-    return (
-        <KeyboardAwareScrollView contentContainerStyle={base.styles.formContainer}>
-            <Text style={typo.styles.label}>Person one salary</Text>
-            <TextInput
-            multiline={true}
-            style={[forms.styles.input, forms.styles.formFieldCenter]}
-            onChangeText={(text:string) => {
-                updateSalariesByIndex(0, text);
-            }}
-            value={salaries[0]}
-            keyboardType='numeric'
-            />
+    const salaryFields = persons.map((person, index) => {
+        return (
+            <View key={index}>
+                <Text style={typo.styles.label}>{person.name}</Text>
+                <TextInput
+                multiline={true}
+                style={[forms.styles.input, forms.styles.formFieldCenter]}
+                onChangeText={(text:string) => {
+                    updatePersonSalary(
+                        index,
+                        {
+                            ...person, 
+                            salary: isNaN(parseFloat(text)) ? 0 : parseFloat(text)
+                        }
+                    );
+                }}
+                value={person.salary.toString() || ''}
+                keyboardType='numeric'
+                />
+            </View>
+        );
+    });
 
-            <Text style={typo.styles.label}>Person two salary</Text>
-            <TextInput
-            multiline={true}
-            onChangeText={(text:string) => {
-                updateSalariesByIndex(1, text);
-            }}
-            value={salaries[1]}
-            style={[forms.styles.input, forms.styles.formFieldCenter]}
-            keyboardType='numeric'
-            />
+    return (
+        <KeyboardAwareScrollView contentContainerStyle={forms.styles.salaryFormContainer}>
+            {salaryFields}
 
             <Text style={typo.styles.label}>Total to pay</Text>
             <TextInput
@@ -65,7 +69,8 @@ export default function SalaryForm () {
             <TouchableOpacity
                 style={forms.styles.formButton}
                 onPress={() => {
-                    setResults(salaryModel.calculate(salaries, totalToPay));
+                    // setResults(salaryModel.calculate(salaries, totalToPay));
+                    setResults(salaryModel.calculateObj(persons, totalToPay));
                 }}
             >
                 <Text style={typo.styles.buttonText}>

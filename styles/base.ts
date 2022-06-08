@@ -14,36 +14,39 @@ const styles = StyleSheet.create({
     paddingTop: 30
   },
 
+  headerIcon: {
+    color: 'white',
+    fontSize: 48,
+    paddingLeft: mainAppPadding,
+  },
+
+  personBoxIcon: {
+    fontSize: 20,
+    color: 'rgba(255,0,0,0.6)'
+  },
+
+  personBoxButton: {
+    alignSelf: 'center',
+    marginLeft: 'auto',
+  },
+
   container: {
     flex: 1,
     paddingLeft: mainAppPadding,
     paddingRight: mainAppPadding,
   },
 
-  formContainer: {
-    flexGrow: 1,
-    justifyContent: 'center'
-  },
-
-  margin12Top: {
-    marginTop: 12
-  },
-
   picker: {
     color: 'white',
     backgroundColor: '#2F2F2F'
   },
-
-  containerRadius: {
-    borderRadius: 4
-  },
-
+  
   button: {
     padding: 10,
     backgroundColor: '#339966',
     borderRadius: 2,
   },
-
+  
   pickerButton: {
     paddingTop: 15,
     paddingBottom: 15,
@@ -55,6 +58,18 @@ const styles = StyleSheet.create({
     marginTop: 12
   },
 
+  personsScrollView: {
+    flexGrow: 1,
+    paddingLeft: 12,
+    paddingRight: 12,
+    marginLeft: mainAppPadding,
+    marginRight: mainAppPadding,
+    borderStyle: 'solid',
+    borderWidth: 1,
+    borderRadius: 4,
+    borderColor: 'rgba(0,0,0,0.1)'
+  },
+
   homeTextPlaceholder: {
     flex: 1,
     flexDirection: 'column',
@@ -63,7 +78,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#424242',
     padding: 20
   },
-
+  
   header: {
     flexDirection: 'row',
     width: '100%',
@@ -71,17 +86,44 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(18,27,43)',
     alignItems: 'center',
   },
-
+  
   padding12LR: {
     paddingLeft: 12,
     paddingRight: 12
   },
+  
+  center: {
+    justifyContent: 'center',
+  },
 
-  headerIcon: {
-    color: 'white',
-    fontSize: 48,
-    paddingLeft: mainAppPadding,
-  }
+  centerFlex1: {
+    justifyContent: 'center',
+    flex: 1
+  },
+
+  margin12Top: {
+    marginTop: 12
+  },
+
+  margin12LR: {
+    marginLeft: mainAppPadding,
+    marginRight: mainAppPadding
+  },
+
+  margin12TopBottom: {
+    marginTop: 12,
+    marginBottom: 12
+  },
+
+  containerRadius: {
+    borderRadius: 4
+  },
+  
+  solidBorder: {
+    borderStyle: 'solid',
+    borderWidth: 2,
+    borderColor: 'red'
+  },
 });
 
 export { styles };

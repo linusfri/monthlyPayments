@@ -40,6 +40,15 @@ const styles = StyleSheet.create( {
         textAlignVertical: 'center'
     },
 
+    personText: {
+        marginLeft: 'auto',
+        paddingRight: 24,
+        fontSize: 20,
+        textAlign: 'center',
+        color: 'white',
+        fontWeight: '700'
+    }
+
     
 });
 
