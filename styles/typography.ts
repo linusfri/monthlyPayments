@@ -33,7 +33,6 @@ const styles = StyleSheet.create( {
         fontSize: 18,
         color: 'rgba(0,0,0,0.55)',
         marginBottom: 0,
-        textAlign: 'center'
     },
 
     textCenterVertical: {
@@ -45,6 +44,14 @@ const styles = StyleSheet.create( {
         paddingRight: 24,
         fontSize: 20,
         textAlign: 'center',
+        color: 'white',
+        fontWeight: '700'
+    },
+
+    textInputButtonText: {
+        textAlign:'center',
+        textAlignVertical: 'center',
+        flexGrow: 1,
         color: 'white',
         fontWeight: '700'
     }

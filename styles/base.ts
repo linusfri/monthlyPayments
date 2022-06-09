@@ -86,6 +86,11 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(18,27,43)',
     alignItems: 'center',
   },
+
+  home: {
+    justifyContent: 'center',
+    minHeight: '95%'
+  },
   
   padding12LR: {
     paddingLeft: 12,
@@ -94,7 +99,6 @@ const styles = StyleSheet.create({
   
   center: {
     justifyContent: 'center',
-    minHeight: '95%'
   },
 
   margin12Top: {

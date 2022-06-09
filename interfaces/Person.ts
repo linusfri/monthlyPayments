@@ -1,6 +1,6 @@
 interface Person {
     name: string,
-    salary: number
+    salary: string
 }
 
 export default Person;

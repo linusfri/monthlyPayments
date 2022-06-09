@@ -9,11 +9,31 @@ const styles = StyleSheet.create({
 
     input: {
         fontSize: 20,
-        marginBottom: 28,
+        flexGrow: 1,
+        width: '80%',
+        paddingLeft: 10,
+        paddingRight: 10
+    },
+
+    inputContainer: {
         borderWidth: 1,
-        padding: 10,
+        minHeight: 50,
         borderColor: '#ccc',
         borderRadius: 3,
+        marginBottom: 28,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+
+    inputAndContainer: {
+        borderWidth: 1,
+        minHeight: 50,
+        borderColor: '#ccc',
+        borderRadius: 3,
+        marginBottom: 28,
+        fontSize: 20,
+        paddingLeft: 10,
+        paddingRight: 10
     },
 
     formButton: {
@@ -49,15 +69,7 @@ const styles = StyleSheet.create({
         borderRadius: 2
     },
 
-    salaryFormContainer: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        paddingLeft: mainAppPadding,
-        paddingRight: mainAppPadding,
-        marginTop: 12
-    },
-
-    personFormContainer: {
+    formContainer: {
         justifyContent: 'center',
         paddingLeft: mainAppPadding,
         paddingRight: mainAppPadding,
@@ -65,6 +77,12 @@ const styles = StyleSheet.create({
 
     formFieldCenter: {
         textAlign: 'center'
+    },
+
+    textInputButton: {
+        backgroundColor: '#2196F3',
+        borderRadius: 2,
+        flexGrow: 1
     }
 });
 

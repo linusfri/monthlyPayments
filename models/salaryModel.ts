@@ -1,84 +1,76 @@
-import { NativeModules, Platform } from 'react-native';
 import expEval from 'expression-eval';
 import Person from '../interfaces/Person';
 
 class SalaryModel {
-    static calculate(salaries:string[], totalToPay:string) {
-        const totalToPayRegex = /^(\d+)$|(\d+[-+/*]\d+)+$/;
-        const salaryRegex = /^(\d+)$/;
-        
-        if (!(totalToPay.match(totalToPayRegex))) {
-            return('Wrong total to pay format');
-        }
-        for (const salary of salaries) {
-            if (salary.length <= 0 || !(salary.match(salaryRegex))) {
-                return('One or more salaries are in the wrong format');
-            }
-        }
-
-        const totalToPayParsed = expEval.parse(totalToPay);
-        const totalToPayNumber:number = expEval.eval(totalToPayParsed, this);
-        const intSalariesList:Array<number> = salaries.map((salary:string) => {
-            return parseInt(salary);
-        });
-        const sumSalaries:number = intSalariesList.reduce((prev, curr) => prev + curr);
-
-        if (sumSalaries < totalToPayNumber) {
-            return 'You cannot pay';
-        }
-
-        let returnString = '';
-        intSalariesList.map((salary, index) => {
-            const toPay:number = +((salary / sumSalaries) * totalToPayNumber).toFixed(2);
-            returnString += `Person ${index + 1}: ${toPay}\n`;
-        });
-        return returnString.trimEnd();
-    }
+    static MATH_REGEX = /^(\d+)$|(\d+[-+/*]\d+)+$/;
 
     static calculateObj(persons:Person[], totalToPay: string) {
-        const totalToPayRegex = /^(\d+)$|(\d+[-+/*]\d+)+$/;
-        const salaryRegex = /^(\d+)$/;
+        if (!SalaryModel.personsSalariesCorrect(persons)) {
+            return 'One or more salaries are in the wrong format';
+        }
+        if (!SalaryModel.totalToPayCorrect(totalToPay)) {
+            return 'Total sum to pay is in the wrong format';
+        }
 
         const totalToPayParsed = expEval.parse(totalToPay);
         const totalToPayNumber:number = expEval.eval(totalToPayParsed, this);
         const intSalariesList:Array<number> = persons.map((person:Person) => {
-            return person.salary;
+            const parsedSalary = expEval.parse(person.salary);
+            const salaryInt = expEval.eval(parsedSalary, person);
+
+            return salaryInt;
         });
         const sumSalaries:number = intSalariesList.reduce((prev, curr) => prev + curr);
-        
-        if (!(totalToPay.match(totalToPayRegex))) {
-            return('Wrong total to pay format');
-        }
 
         if (totalToPayNumber < 0) {
             return('Total sum to pay cannot be less than 0');
         }
 
-        for (const person of persons) {
-            if (person.salary < 0 || !(person.salary.toString().match(salaryRegex))) {
-                return('One or more salaries are in the wrong format');
-            }
-        }
-
         if (sumSalaries < totalToPayNumber) {
             return 'You cannot pay';
         }
 
         let returnString = '';
+
         intSalariesList.map((salary, index) => {
             const toPay:number = +((salary / sumSalaries) * totalToPayNumber).toFixed(2);
+
             returnString += `${persons[index].name}: ${toPay}\n`;
         });
         return returnString.trimEnd();
     }
 
-    static getUserLocale() {
-        const deviceLang = Platform.OS === 'ios'
-        ? NativeModules.SettingsManager.settings.AppleLocale ||
-          NativeModules.SettingsManager.settings.AppleLanguages[0]
-        : NativeModules.I18nManager.localeIdentifier;
-        
-        return deviceLang;
+    private static personsSalariesCorrect(persons:Array<Person>) {
+        for (const person of persons) {
+            if (!(person.salary.match(SalaryModel.MATH_REGEX))) {
+                return false;
+            }
+
+            const parsedSalary = expEval.parse(person.salary);
+            const salaryInt = expEval.eval(parsedSalary, person);
+
+            if (salaryInt < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private static totalToPayCorrect(totalToPay:string) {
+        if (!(totalToPay.match(SalaryModel.MATH_REGEX))) {
+            return false;
+        }
+        return true;
+    }
+
+    static sumSalaryReturnText(salary: string) {
+        if (!(salary.match(SalaryModel.MATH_REGEX))) {
+            return salary;
+        }
+        const parsedSalary = expEval.parse(salary);
+        const salaryInt:number = expEval.eval(parsedSalary, this);
+
+        return salaryInt.toString();
     }
 }
 export default SalaryModel;

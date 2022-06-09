@@ -13,6 +13,7 @@ import Person from './interfaces/Person';
 import Home from './components/Home';
 
 const Stack = createNativeStackNavigator<rootParamList>();
+
 export default function App() {
   const [persons, setPersons] = useState<Array<Person>>([]);
 

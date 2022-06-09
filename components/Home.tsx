@@ -1,4 +1,4 @@
-import { View, Text,TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text,TouchableOpacity } from 'react-native';
 import { useState } from 'react';
 import { showMessage } from 'react-native-flash-message';
 import { Ionicons } from '@expo/vector-icons';
@@ -10,7 +10,7 @@ import HomeScreen from '../types/screens/home';
 import AddPersonForm from './AddPersonForm';
 
 export default function Home({ navigation, persons, setPersons }:HomeScreen) {
-    const [person, setPerson] = useState<Person>({name:'', salary: 0});
+    const [person, setPerson] = useState<Person>({name:'', salary: ''});
 
     function addPerson(newPerson:Person) {
         if (newPerson.name === '') {
@@ -33,15 +33,14 @@ export default function Home({ navigation, persons, setPersons }:HomeScreen) {
                 return;
             }       
         }
+
+        setPersons([...persons, newPerson]);
+        setPerson({name:'', salary: ''});
         showMessage({
             message: 'Person added',
             description: `${newPerson.name} was added`,
             type: 'success'
         });
-
-        setPersons([...persons, newPerson]);
-
-        setPerson({name:'', salary: 0});
     }
 
     function deletePerson(deleteIndex:number) {
@@ -51,6 +50,7 @@ export default function Home({ navigation, persons, setPersons }:HomeScreen) {
             }
             return person;
         });
+
         setPersons(filteredPersonList);
     }
 
@@ -72,14 +72,9 @@ export default function Home({ navigation, persons, setPersons }:HomeScreen) {
 
     return (
         <KeyboardAwareScrollView
-            contentContainerStyle={base.styles.center}
+            contentContainerStyle={base.styles.home}
             keyboardShouldPersistTaps='always'
         >
-            <Text 
-                style={[typo.styles.h2, base.styles.padding12LR, base.styles.margin12TopBottom]}
-            >
-                Add person
-            </Text>
             <AddPersonForm
             person={person}
             setPerson={setPerson}

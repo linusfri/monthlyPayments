@@ -1,30 +1,38 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
-import { showMessage } from 'react-native-flash-message';
 
-import { forms, typo } from '../styles/index';
+import { forms, base, typo } from '../styles/index';
 import PersonForm from '../types/screens/AddPersonForm';
+import InputSum from './InputSum';
 
 export default function AddPersonForm({setPerson, person, addPerson }:PersonForm) {
     return (
-        <View style={forms.styles.personFormContainer}>
-            <Text>Person name</Text>
+        <View style={forms.styles.formContainer}>
+            <Text 
+                style={[typo.styles.h2, base.styles.margin12TopBottom]}
+            >
+                Add person
+            </Text>
+            <Text style={typo.styles.label}>Person name</Text>
             <TextInput
-                style={[forms.styles.input, forms.styles.formFieldCenter]}
+                style={forms.styles.inputAndContainer}
                 onChangeText={(text:string) => {
                     setPerson({...person, name: text});
                 }}
                 value={person.name || ''}
             />
     
-            <Text>Person salary</Text>
-            <TextInput
-                style={[forms.styles.input, forms.styles.formFieldCenter]}
-                onChangeText={(text:string) => {
-                    setPerson({...person, salary: isNaN(parseFloat(text)) ? 0 : parseFloat(text)});
-                }}
-                value={person.salary?.toString()}
-                keyboardType={'phone-pad'}
-            />
+            <Text style={typo.styles.label}>Person salary</Text>
+            <View style={forms.styles.inputContainer}>
+                <TextInput
+                    style={forms.styles.input}
+                    onChangeText={(text:string) => {
+                        setPerson({...person, salary: text});
+                    }}
+                    value={person.salary}
+                    keyboardType={'phone-pad'}
+                />
+                <InputSum person={person} setPerson={setPerson}/>
+            </View>
             <TouchableOpacity
                 style={forms.styles.formButtonExtraPadding}
                 onPress={() => {
