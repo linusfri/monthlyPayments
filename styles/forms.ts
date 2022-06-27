@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
         borderRadius: 3,
         marginBottom: 28,
         flexDirection: 'row',
-        alignItems: 'center',
     },
 
     inputAndContainer: {
@@ -33,7 +32,7 @@ const styles = StyleSheet.create({
         marginBottom: 28,
         fontSize: 20,
         paddingLeft: 10,
-        paddingRight: 10
+        paddingRight: 10,
     },
 
     formButton: {
@@ -75,7 +74,7 @@ const styles = StyleSheet.create({
         paddingRight: mainAppPadding,
     },
 
-    formFieldCenter: {
+    formFieldTextCenter: {
         textAlign: 'center'
     },
 

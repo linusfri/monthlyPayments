@@ -74,7 +74,7 @@ export default function SalaryForm ({ navigation, persons, setPersons }:salaryFo
 
             <Text style={typo.styles.label}>Results</Text>
             <TextInput
-                style={[forms.styles.inputAndContainer, forms.styles.formFieldCenter, typo.styles.pBold]}
+                style={[forms.styles.inputAndContainer, forms.styles.formFieldTextCenter, typo.styles.pBold]}
                 multiline={true}
                 numberOfLines={2}
                 editable={false}
