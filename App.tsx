@@ -16,6 +16,7 @@ const Stack = createNativeStackNavigator<rootParamList>();
 
 export default function App() {
   const [persons, setPersons] = useState<Array<Person>>([]);
+  const [person, setPerson] = useState<Person>({name:'', salary: ''});
 
   return (
     <SafeAreaView style={base.styles.appMainContainer}>
@@ -26,10 +27,24 @@ export default function App() {
             name={'Hem'}
             options={{headerShown: false}}
           >
-            {(screenProps) => <Home {...screenProps} persons={persons} setPersons={setPersons}/>}
+            {(screenProps) =>
+              <Home 
+                {...screenProps}
+                persons={persons}
+                setPersons={setPersons}
+                person={person}
+                setPerson={setPerson}
+              />
+            }
           </Stack.Screen>
           <Stack.Screen name={'Löneformulär'} options={{headerShown: false}}>
-            {(screenprops) => <SalaryForm {...screenprops} persons={persons} setPersons={setPersons}/>}
+            {(screenprops) => 
+              <SalaryForm
+                {...screenprops}
+                persons={persons}
+                setPersons={setPersons}
+              />
+            }
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

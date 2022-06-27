@@ -7,6 +7,8 @@ type HomeScreen = {
     navigation: NativeStackNavigationProp<rootParamList>,
     persons: Array<Person>
     setPersons: React.Dispatch<React.SetStateAction<Array<Person>>>
+    setPerson: React.Dispatch<React.SetStateAction<Person>>
+    person: Person
 }
 
 export default HomeScreen;

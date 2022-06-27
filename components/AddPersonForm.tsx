@@ -18,7 +18,7 @@ export default function AddPersonForm({setPerson, person, addPerson }:PersonForm
                 onChangeText={(text:string) => {
                     setPerson({...person, name: text});
                 }}
-                value={person.name || ''}
+                value={person.name}
             />
     
             <Text style={typo.styles.label}>Person salary</Text>

@@ -7,7 +7,7 @@ import salaryModel from '../models/salaryModel';
 import salaryForm from '../types/screens/salaryForm';
 import Person from '../interfaces/Person';
 import { forms, base, typo } from '../styles/index';
-import InputSum from './InputSum';
+import InputSumSalaryForm from './InputSumSalaryForm';
 
 export default function SalaryForm ({ navigation, persons, setPersons }:salaryForm) {
     const [totalToPay, setTotalToPay] = useState<string>('');
@@ -40,16 +40,20 @@ export default function SalaryForm ({ navigation, persons, setPersons }:salaryFo
                             }
                         );
                     }}
-                    value={person.salary.toString() || ''}
+                    value={person.salary}
                     keyboardType='phone-pad'
                     />
+                    <InputSumSalaryForm person={person} updatePersonSalary={updatePersonSalary} index={index}/>
                 </View>
             </View>
         );
     });
 
     return (
-        <KeyboardAwareScrollView contentContainerStyle={forms.styles.formContainer}>
+        <KeyboardAwareScrollView
+            contentContainerStyle={forms.styles.formContainer}
+            keyboardShouldPersistTaps='always'
+            >
             <Text style={[typo.styles.h2, base.styles.margin12TopBottom]}>Calculation</Text>
 
             {salaryFields}
@@ -63,17 +67,18 @@ export default function SalaryForm ({ navigation, persons, setPersons }:salaryFo
                 onChangeText={(text:string) => {
                     setTotalToPay(text);
                 }}
+                placeholder={'Fyll i totalsumman att betala'}
                 value={totalToPay}
                 />
             </View>
 
             <Text style={typo.styles.label}>Results</Text>
             <TextInput
-            style={[forms.styles.inputAndContainer, forms.styles.formFieldCenter, typo.styles.pBold]}
-            multiline={true}
-            numberOfLines={2}
-            editable={false}
-            value={results}
+                style={[forms.styles.inputAndContainer, forms.styles.formFieldCenter, typo.styles.pBold]}
+                multiline={true}
+                numberOfLines={2}
+                editable={false}
+                value={results}
             />
             <TouchableOpacity
                 style={forms.styles.formButtonExtraPadding}

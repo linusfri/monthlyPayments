@@ -9,9 +9,7 @@ import { forms, base, typo } from '../styles/index';
 import HomeScreen from '../types/screens/home';
 import AddPersonForm from './AddPersonForm';
 
-export default function Home({ navigation, persons, setPersons }:HomeScreen) {
-    const [person, setPerson] = useState<Person>({name:'', salary: ''});
-
+export default function Home({ navigation, persons, setPersons, person, setPerson }:HomeScreen) {
     function addPerson(newPerson:Person) {
         if (newPerson.name === '') {
             showMessage({
