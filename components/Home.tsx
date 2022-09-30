@@ -1,5 +1,4 @@
 import { View, Text,TouchableOpacity } from 'react-native';
-import { useState } from 'react';
 import { showMessage } from 'react-native-flash-message';
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';

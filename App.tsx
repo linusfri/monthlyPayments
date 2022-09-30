@@ -22,7 +22,7 @@ export default function App() {
     <SafeAreaView style={base.styles.appMainContainer}>
       <Header/>
       <NavigationContainer>
-        <Stack.Navigator >
+        <Stack.Navigator>
           <Stack.Screen 
             name={'Hem'}
             options={{headerShown: false}}

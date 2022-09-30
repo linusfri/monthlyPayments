@@ -4,7 +4,7 @@ import Person from '../interfaces/Person';
 class SalaryModel {
     static MATH_REGEX = /^(\d+)$|(\d+[-+/*]\d+)+$/;
 
-    static calculateObj(persons:Person[], totalToPay: string) {
+    static calculate(persons:Person[], totalToPay: string) {
         if (!SalaryModel.personsSalariesCorrect(persons)) {
             return 'One or more salaries are in the wrong format';
         }

@@ -25,7 +25,7 @@ export default function SalaryForm ({ navigation, persons, setPersons }:salaryFo
     const salaryFields = persons.map((person, index) => {
         return (
             <View key={index}>
-            <Text style={typo.styles.label}>{person.name}</Text>
+                <Text style={typo.styles.label}>{person.name}</Text>
                 <View style={forms.styles.inputContainer}>
                     <TextInput
                     multiline={true}
@@ -83,7 +83,7 @@ export default function SalaryForm ({ navigation, persons, setPersons }:salaryFo
             <TouchableOpacity
                 style={forms.styles.formButtonExtraPadding}
                 onPress={() => {
-                    setResults(salaryModel.calculateObj(persons, totalToPay));
+                    setResults(salaryModel.calculate(persons, totalToPay));
                 }}
             >
                 <Text style={typo.styles.buttonText}>
