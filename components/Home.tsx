@@ -69,11 +69,6 @@ export default function Home({ navigation, person, setPerson, people, setPeople 
         );
     });
 
-    useEffect(() => {
-        // const apiClient = new ApiClient();
-        console.log(process.env.EXPO_PUBLIC_API_URL);
-    }, []);
-
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={base.styles.home}
