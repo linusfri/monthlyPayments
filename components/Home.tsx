@@ -7,8 +7,10 @@ import Person from '../interfaces/Person';
 import { forms, base, typo } from '../styles/index';
 import HomeScreen from '../types/screens/home';
 import AddPersonForm from './AddPersonForm';
+import { useEffect } from 'react';
+import ApiClient from '../models/apiClient';
 
-export default function Home({ navigation, persons, setPersons, person, setPerson }:HomeScreen) {
+export default function Home({ navigation, person, setPerson, people, setPeople }: HomeScreen) {
     function addPerson(newPerson:Person) {
         if (newPerson.name === '') {
             showMessage({
@@ -19,7 +21,7 @@ export default function Home({ navigation, persons, setPersons, person, setPerso
             return;
         }
 
-        for (const person of persons) {
+        for (const person of people) {
             if (person.name === newPerson.name) {
                 showMessage({
                     message: 'Name already exists',
@@ -31,7 +33,7 @@ export default function Home({ navigation, persons, setPersons, person, setPerso
             }       
         }
 
-        setPersons([...persons, newPerson]);
+        setPeople([...people, newPerson]);
         setPerson({name:'', salary: ''});
         showMessage({
             message: 'Person added',
@@ -41,17 +43,17 @@ export default function Home({ navigation, persons, setPersons, person, setPerso
     }
 
     function deletePerson(deleteIndex:number) {
-        const filteredPersonList = persons.filter((person, index) => {
+        const filteredPersonList = people.filter((person, index) => {
             if (index === deleteIndex) {
                 return false;
             }
             return person;
         });
 
-        setPersons(filteredPersonList);
+        setPeople(filteredPersonList);
     }
 
-    const personsToRender = persons.map((person, index) => {
+    const peopleToRender = people.map((person, index) => {
         return (
             <View key={index} style={forms.styles.formPerson}>
                 <Text style={typo.styles.personText}>{person.name}</Text>
@@ -67,6 +69,11 @@ export default function Home({ navigation, persons, setPersons, person, setPerso
         );
     });
 
+    useEffect(() => {
+        // const apiClient = new ApiClient();
+        console.log(process.env.EXPO_PUBLIC_API_URL);
+    }, []);
+
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={base.styles.home}
@@ -81,7 +88,7 @@ export default function Home({ navigation, persons, setPersons, person, setPerso
             <TouchableOpacity
                 style={[forms.styles.formButton, base.styles.margin12LR]}
                 onPress={() => {
-                    if (persons.length < 2) {
+                    if (people.length < 2) {
                         showMessage({
                             message: 'At least two people',
                             description: 'You need to add at least two people',
@@ -95,8 +102,8 @@ export default function Home({ navigation, persons, setPersons, person, setPerso
                 <Text style={typo.styles.buttonText}>Continue</Text>
             </TouchableOpacity>
 
-            <View style={base.styles.personsView}>
-                {personsToRender}
+            <View style={base.styles.peopleView}>
+                {peopleToRender}
             </View>
         </KeyboardAwareScrollView>
     );

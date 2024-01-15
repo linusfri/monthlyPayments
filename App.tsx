@@ -15,7 +15,7 @@ import Home from './components/Home';
 const Stack = createNativeStackNavigator<rootParamList>();
 
 export default function App() {
-  const [persons, setPersons] = useState<Array<Person>>([]);
+  const [persons, setPeople] = useState<Array<Person>>([]);
   const [person, setPerson] = useState<Person>({name:'', salary: ''});
 
   return (
@@ -30,8 +30,8 @@ export default function App() {
             {(screenProps) =>
               <Home 
                 {...screenProps}
-                persons={persons}
-                setPersons={setPersons}
+                people={persons}
+                setPeople={setPeople}
                 person={person}
                 setPerson={setPerson}
               />
@@ -42,7 +42,7 @@ export default function App() {
               <SalaryForm
                 {...screenprops}
                 persons={persons}
-                setPersons={setPersons}
+                setPersons={setPeople}
               />
             }
           </Stack.Screen>
