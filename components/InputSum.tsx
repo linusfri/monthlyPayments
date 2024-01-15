@@ -3,7 +3,6 @@ import { Text, TouchableOpacity } from 'react-native';
 
 import { forms, typo } from '../styles';
 import inputSum from '../types/screens/InputSum';
-import SalaryModel from '../models/salaryModel';
 import ApiClient from '../models/apiClient';
 
 export default function InputSum({ person, setPerson }:inputSum) {
