@@ -30,6 +30,10 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
   },
 
+  peopleView: {
+    padding: 12
+  },
+
   container: {
     flex: 1,
     paddingLeft: mainAppPadding,
