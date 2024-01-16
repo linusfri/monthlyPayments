@@ -31,7 +31,7 @@ export default function AddPersonForm({setPerson, person, addPerson }:PersonForm
                     value={person.salary}
                     keyboardType={'phone-pad'}
                 />
-                <InputSum person={person} setPerson={setPerson}/>
+                <InputSum entity={person} setState={setPerson}/>
             </View>
             <TouchableOpacity
                 style={forms.styles.formButtonExtraPadding}

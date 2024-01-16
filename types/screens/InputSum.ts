@@ -1,8 +1,8 @@
-import Person from '../../interfaces/Person';
-
-type InputSum = {
-    setPerson: React.Dispatch<React.SetStateAction<Person>>,
-    person: Person,
+type InputSum<T> = {
+    setState?: React.Dispatch<React.SetStateAction<T>>,
+    stateUpdateFn?: (entity: T, index: number) => void,
+    index?: number, 
+    entity: T,
 }
 
 export default InputSum;

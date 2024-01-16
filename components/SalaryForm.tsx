@@ -7,13 +7,13 @@ import salaryModel from '../models/salaryModel';
 import salaryForm from '../types/screens/salaryForm';
 import Person from '../interfaces/Person';
 import { forms, base, typo } from '../styles/index';
-import InputSumSalaryForm from './InputSumSalaryForm';
+import InputSum from './InputSum';
 
 export default function SalaryForm ({ navigation, persons, setPersons }:salaryForm) {
     const [totalToPay, setTotalToPay] = useState<string>('');
     const [results, setResults] = useState<string>('');
 
-    function updatePersonSalary(listIndex:number, newPerson:Person) {
+    function updatePersonSalary(newPerson:Person, listIndex:number) {
         setPersons(persons.map((person, index) => {
             if (listIndex === index) {
                 return newPerson;
@@ -33,17 +33,17 @@ export default function SalaryForm ({ navigation, persons, setPersons }:salaryFo
                     style={forms.styles.input}
                     onChangeText={(text:string) => {
                         updatePersonSalary(
-                            index,
                             {
                                 ...person, 
                                 salary: text
-                            }
+                            },
+                            index
                         );
                     }}
                     value={person.salary}
                     keyboardType='phone-pad'
                     />
-                    <InputSumSalaryForm person={person} updatePersonSalary={updatePersonSalary} index={index}/>
+                    <InputSum entity={person} stateUpdateFn={updatePersonSalary} atIndex={index}/>
                 </View>
             </View>
         );
