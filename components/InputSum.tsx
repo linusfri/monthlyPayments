@@ -5,21 +5,15 @@ import { forms, typo } from '../styles';
 import inputSum from '../types/screens/InputSum';
 import ApiClient from '../models/apiClient';
 import Person from '../interfaces/Person';
+import { SalaryBackend } from '../models/salaryModel';
 
 export default function InputSum({ entity, setState, stateUpdateFn, atIndex }:inputSum<Person>) {
   async function calculateSalary(salary: string) {
-    const apiClient = new ApiClient();
-    
-    let res = null;
+    const salaryBackend = new SalaryBackend(new ApiClient());
 
-    try {
-      res = await apiClient.request('POST', '/monthly-pay/evaluate', JSON.stringify(salary));
-    } catch {
-      return salary;
-    }
-
-    return res.data.amount.toString();
+    return await salaryBackend.evaluate(salary);
   }
+
   return (
     setState || stateUpdateFn ? (
       <TouchableOpacity

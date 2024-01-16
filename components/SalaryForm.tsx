@@ -1,13 +1,13 @@
 import { View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { Ionicons } from '@expo/vector-icons';
 import { useState } from 'react';
 
-import salaryModel from '../models/salaryModel';
+import { SalaryBackend } from '../models/salaryModel';
 import salaryForm from '../types/screens/salaryForm';
 import Person from '../interfaces/Person';
 import { forms, base, typo } from '../styles/index';
 import InputSum from './InputSum';
+import ApiClient from '../models/apiClient';
 
 export default function SalaryForm ({ navigation, persons, setPersons }:salaryForm) {
     const [totalToPay, setTotalToPay] = useState<string>('');
@@ -20,6 +20,24 @@ export default function SalaryForm ({ navigation, persons, setPersons }:salaryFo
             }
             return person;
         }));
+    }
+
+    async function getResults(people: Person[], totalToPay: string) {
+        const salaryBackend = new SalaryBackend(new ApiClient());
+
+        const data = await salaryBackend.calculate(people, totalToPay);
+
+        let resultString = '';
+
+        data.forEach((person, index) => {
+            /** If we are at last person, remove new line */
+            if (index === data.length - 1) {
+                resultString += `${person.name}: ${person.to_pay}`;
+                return;
+            }
+            resultString += `${person.name}: ${person.to_pay}\n`;
+        });
+        setResults(resultString);
     }
 
     const salaryFields = persons.map((person, index) => {
@@ -83,7 +101,7 @@ export default function SalaryForm ({ navigation, persons, setPersons }:salaryFo
             <TouchableOpacity
                 style={forms.styles.formButtonExtraPadding}
                 onPress={() => {
-                    setResults(salaryModel.calculate(persons, totalToPay));
+                    getResults(persons, totalToPay);
                 }}
             >
                 <Text style={typo.styles.buttonText}>
