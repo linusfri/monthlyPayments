@@ -43,7 +43,6 @@ export default class ApiClient {
     }
 
     async request (method: string, endpoint: string, data?: object | string) {
-        console.log(data);
         return await this.client.request({
             url: endpoint,
             method,

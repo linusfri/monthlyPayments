@@ -1,6 +1,10 @@
 import expEval from 'expression-eval';
 import Person from '../interfaces/Person';
+import ApiClient from './apiClient';
 
+/**
+ * @deprecated Replaced by SalaryBackend
+ */
 class SalaryModel {
     static MATH_REGEX = /^(\d+)$|(\d+[-+/*]\d+)+$/;
 
@@ -73,4 +77,40 @@ class SalaryModel {
         return salaryInt.toString();
     }
 }
-export default SalaryModel;
+
+class SalaryBackend {
+    client: ApiClient;
+
+    constructor(client: ApiClient) {
+        this.client = client;
+    }
+
+    public async calculate(people: Person[], totalToPay: string) {
+        const requestData: {people: Person[], total_to_pay: string} = {
+            people,
+            total_to_pay: totalToPay
+        };
+
+        const res = await this.client.request('POST', '/monthly-pay/calculate', requestData);
+
+        return res.data.people as Promise<[{name: string, to_pay: string}]>;
+    }
+
+    public async evaluate(salary: string) {
+        let res = null;
+
+        try {
+            res = await this.client.request('POST', '/monthly-pay/evaluate', JSON.stringify(salary));
+        } catch {
+            return salary;
+        }
+
+        return res.data.amount.toString();
+    }
+}
+
+
+export {
+    SalaryBackend,
+    SalaryModel
+};
