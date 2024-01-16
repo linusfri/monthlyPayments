@@ -11,7 +11,9 @@ export default function InputSum({ entity, setState, stateUpdateFn, atIndex }:in
   async function calculateSalary(salary: string) {
     const salaryBackend = new SalaryBackend(new ApiClient());
 
-    return await salaryBackend.evaluate(salary);
+    const res = await salaryBackend.evaluate(salary);
+
+    return res;
   }
 
   return (
