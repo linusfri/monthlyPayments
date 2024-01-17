@@ -28,8 +28,8 @@ export default function InputSum({ entity, setState, stateUpdateFn, atIndex }:in
 
               if (setState) {
                 setState(newEntity);
-              } else if (stateUpdateFn && atIndex) {
-                stateUpdateFn(newEntity, atIndex);
+              } else if (stateUpdateFn && atIndex !== null) {
+                stateUpdateFn(newEntity, atIndex as number);
               }
           }}
       >
