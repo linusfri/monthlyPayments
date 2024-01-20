@@ -1,4 +1,4 @@
-import { rootNavigation, rootParamList } from '../rootNavigation';
+import { rootParamList } from '../rootNavigation';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 
 import Person from '../../interfaces/Person';

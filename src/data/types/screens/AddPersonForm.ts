@@ -1,4 +1,4 @@
-import Person from '../../interfaces/Person';
+import Person from '../../src/data/interfaces/Person';
 
 type PersonForm = {
     setPerson: React.Dispatch<React.SetStateAction<Person>>,

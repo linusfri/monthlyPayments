@@ -5,12 +5,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import FlashMessage from 'react-native-flash-message';
 
-import { base } from './styles/index';
-import { rootParamList } from './types/rootNavigation';
-import SalaryForm from './components/SalaryForm';
-import Header from './components/Header';
-import Person from './interfaces/Person';
-import Home from './components/Home';
+import { base } from './src/styles/index';
+import { rootParamList } from './src/data/types/rootNavigation';
+import SalaryForm from './src/components/SalaryForm';
+import Header from './src/components/Header';
+import Person from './src/data/interfaces/Person';
+import Home from './src/components/Home';
 
 const Stack = createNativeStackNavigator<rootParamList>();
 

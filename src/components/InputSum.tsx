@@ -2,9 +2,9 @@ import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
 import { forms, typo } from '../styles';
-import inputSum from '../types/screens/InputSum';
+import inputSum from '../data/types/screens/InputSum';
 import ApiClient from '../models/apiClient';
-import Person from '../interfaces/Person';
+import Person from '../data/interfaces/Person';
 import { SalaryBackend } from '../models/salaryModel';
 
 export default function InputSum({ entity, setState, stateUpdateFn, atIndex }:inputSum<Person>) {

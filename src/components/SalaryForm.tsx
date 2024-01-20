@@ -3,8 +3,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useState } from 'react';
 
 import { SalaryBackend } from '../models/salaryModel';
-import salaryForm from '../types/screens/salaryForm';
-import Person from '../interfaces/Person';
+import salaryForm from '../data/types/screens/salaryForm';
+import Person from '../data/interfaces/Person';
 import { forms, base, typo } from '../styles/index';
 import InputSum from './InputSum';
 import ApiClient from '../models/apiClient';

@@ -1,5 +1,5 @@
 import expEval from 'expression-eval';
-import Person from '../interfaces/Person';
+import Person from '../data/interfaces/Person';
 import ApiClient from './apiClient';
 
 /**
