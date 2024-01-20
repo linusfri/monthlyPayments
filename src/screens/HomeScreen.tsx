@@ -1,55 +1,15 @@
-import { View, Text,TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import Person from '../../data/interfaces/Person';
-import { forms, base, typo } from '../../styles/index';
-import HomeScreen from '../../data/types/screens/home';
-import AddPersonForm from './AddPersonForm';
+import { forms, base, typo } from '../styles/index';
+import HomeScreen from '../data/types/screens/Home';
+import AddPersonForm from '../components/custom/AddPersonForm';
+import usePeopleFacade from '../store/facades/usePeopleFacade';
 
-export default function Home({ navigation, person, setPerson, people, setPeople }: HomeScreen) {
-    function addPerson(newPerson:Person) {
-        if (newPerson.name === '') {
-            showMessage({
-                message: 'No name',
-                description: 'You must enter a name',
-                type: 'warning'
-            });
-            return;
-        }
-
-        for (const person of people) {
-            if (person.name === newPerson.name) {
-                showMessage({
-                    message: 'Name already exists',
-                    description: 'A person with that name already exists',
-                    type: 'warning'
-                });
-
-                return;
-            }       
-        }
-
-        setPeople([...people, newPerson]);
-        setPerson({name:'', salary: ''});
-        showMessage({
-            message: 'Person added',
-            description: `${newPerson.name} was added`,
-            type: 'success'
-        });
-    }
-
-    function deletePerson(deleteIndex:number) {
-        const filteredPersonList = people.filter((person, index) => {
-            if (index === deleteIndex) {
-                return false;
-            }
-            return person;
-        });
-
-        setPeople(filteredPersonList);
-    }
+export default function Home({ navigation }: HomeScreen) {
+    const { people, deletePerson } = usePeopleFacade();
 
     const peopleToRender = people.map((person, index) => {
         return (
@@ -72,11 +32,7 @@ export default function Home({ navigation, person, setPerson, people, setPeople 
             contentContainerStyle={base.styles.home}
             keyboardShouldPersistTaps='always'
         >
-            <AddPersonForm
-            person={person}
-            setPerson={setPerson}
-            addPerson={addPerson}
-            />
+            <AddPersonForm />
 
             <TouchableOpacity
                 style={[forms.styles.formButton, base.styles.margin12LR]}

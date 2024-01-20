@@ -1,10 +1,50 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { showMessage } from 'react-native-flash-message';
+import { useState } from 'react';
 
 import { forms, base, typo } from '../../styles/index';
-import PersonForm from '../../data/types/screens/AddPersonForm';
 import InputSum from '../shared/InputSum';
+import Person from '../../data/interfaces/Person';
+import usePeopleFacade from '../../store/facades/usePeopleFacade';
 
-export default function AddPersonForm({setPerson, person, addPerson }:PersonForm) {
+export default function AddPersonForm() {
+    const { people, addPerson } = usePeopleFacade();
+    const [name, setName] = useState<string>('');
+    const [salary, setSalary] = useState<string>('');
+
+    function validateAndAdd() {
+        const newPerson = {
+            name,
+            salary
+        } as Person;
+
+        if (newPerson.name === '') {
+            showMessage({
+                message: 'No name',
+                description: 'You must enter a name',
+                type: 'warning'
+            });
+            return;
+        }
+
+        for (const person of people) {
+            if (person.name === newPerson.name) {
+                showMessage({
+                    message: 'Name already exists',
+                    description: 'A person with that name already exists',
+                    type: 'warning'
+                });
+    
+                return;
+            }       
+        }
+
+        addPerson(newPerson);
+
+        setName('');
+        setSalary('');
+    }
+
     return (
         <View style={forms.styles.formContainer}>
             <Text 
@@ -15,29 +55,23 @@ export default function AddPersonForm({setPerson, person, addPerson }:PersonForm
             <Text style={typo.styles.label}>Person name</Text>
             <TextInput
                 style={forms.styles.inputAndContainer}
-                onChangeText={(text:string) => {
-                    setPerson({...person, name: text});
-                }}
-                value={person.name}
+                onChangeText={(text) => setName(text)}
+                value={name}
             />
     
             <Text style={typo.styles.label}>Person salary</Text>
             <View style={forms.styles.inputContainer}>
                 <TextInput
                     style={forms.styles.input}
-                    onChangeText={(text:string) => {
-                        setPerson({...person, salary: text});
-                    }}
-                    value={person.salary}
                     keyboardType={'phone-pad'}
+                    onChangeText={(text) => setSalary(text)}
+                    value={salary}
                 />
-                <InputSum entity={person} setState={setPerson}/>
+                {/* <InputSum entity={person} setState={setPerson}/> */}
             </View>
             <TouchableOpacity
                 style={forms.styles.formButtonExtraPadding}
-                onPress={() => {
-                    addPerson(person);
-                }}
+                onPress={validateAndAdd}
             >
                 <Text style={typo.styles.buttonText}>Add person</Text>
             </TouchableOpacity>

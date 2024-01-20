@@ -2,49 +2,28 @@ import { StatusBar } from 'expo-status-bar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useState } from 'react';
 import FlashMessage from 'react-native-flash-message';
 
 import { base } from './src/styles/index';
 import { rootParamList } from './src/data/types/rootNavigation';
-import SalaryForm from './src/components/custom/SalaryForm';
+import CalculationScreen from './src/screens/CalculationScreen';
 import Header from './src/components/custom/Header';
-import Person from './src/data/interfaces/Person';
-import Home from './src/components/custom/Home';
+import Home from './src/screens/HomeScreen';
 
 const Stack = createNativeStackNavigator<rootParamList>();
 
 export default function App() {
-  const [persons, setPeople] = useState<Array<Person>>([]);
-  const [person, setPerson] = useState<Person>({name:'', salary: ''});
 
   return (
     <SafeAreaView style={base.styles.appMainContainer}>
       <Header/>
       <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen 
-            name={'Hem'}
-            options={{headerShown: false}}
-          >
-            {(screenProps) =>
-              <Home 
-                {...screenProps}
-                people={persons}
-                setPeople={setPeople}
-                person={person}
-                setPerson={setPerson}
-              />
-            }
+          <Stack.Screen name={'Hem'} options={{headerShown: false}}>
+            {(screenProps) => <Home {...screenProps} />}
           </Stack.Screen>
           <Stack.Screen name={'Löneformulär'} options={{headerShown: false}}>
-            {(screenprops) => 
-              <SalaryForm
-                {...screenprops}
-                persons={persons}
-                setPersons={setPeople}
-              />
-            }
+            {(screenprops) => <CalculationScreen {...screenprops} />}
           </Stack.Screen>
         </Stack.Navigator>
       </NavigationContainer>

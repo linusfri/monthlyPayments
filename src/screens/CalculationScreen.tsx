@@ -2,19 +2,21 @@ import { View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useState } from 'react';
 
-import { SalaryBackend } from '../../models/salaryModel';
-import salaryForm from '../../data/types/screens/salaryForm';
-import Person from '../../data/interfaces/Person';
-import { forms, base, typo } from '../../styles/index';
-import InputSum from '../shared/InputSum';
-import ApiClient from '../../server/apiClient';
+import { SalaryBackend } from '../models/salaryModel';
+import salaryForm from '../data/types/screens/SalaryForm';
+import Person from '../data/interfaces/Person';
+import { forms, base, typo } from '../styles/index';
+import InputSum from '../components/shared/InputSum';
+import ApiClient from '../server/apiClient';
+import usePeopleFacade from '../store/facades/usePeopleFacade';
 
-export default function SalaryForm ({ navigation, persons, setPersons }:salaryForm) {
+export default function SalaryForm ({ navigation }: salaryForm) {
     const [totalToPay, setTotalToPay] = useState<string>('');
     const [results, setResults] = useState<string>('');
+    const {people, setPeople} = usePeopleFacade();
 
-    function updatePersonSalary(newPerson:Person, listIndex:number) {
-        setPersons(persons.map((person, index) => {
+    function updatePersonSalary(newPerson:Person, listIndex: number) {
+        setPeople(people.map((person, index) => {
             if (listIndex === index) {
                 return newPerson;
             }
@@ -40,7 +42,7 @@ export default function SalaryForm ({ navigation, persons, setPersons }:salaryFo
         setResults(resultString);
     }
 
-    const salaryFields = persons.map((person, index) => {
+    const salaryFields = people.map((person, index) => {
         return (
             <View key={index}>
                 <Text style={typo.styles.label}>{person.name}</Text>
@@ -101,7 +103,7 @@ export default function SalaryForm ({ navigation, persons, setPersons }:salaryFo
             <TouchableOpacity
                 style={forms.styles.formButtonExtraPadding}
                 onPress={() => {
-                    getResults(persons, totalToPay);
+                    getResults(people, totalToPay);
                 }}
             >
                 <Text style={typo.styles.buttonText}>
