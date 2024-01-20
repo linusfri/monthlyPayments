@@ -2,12 +2,12 @@ import { View, Text, TextInput, TouchableOpacity, Keyboard } from 'react-native'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useState } from 'react';
 
-import { SalaryBackend } from '../models/salaryModel';
-import salaryForm from '../data/types/screens/salaryForm';
-import Person from '../data/interfaces/Person';
-import { forms, base, typo } from '../styles/index';
-import InputSum from './InputSum';
-import ApiClient from '../models/apiClient';
+import { SalaryBackend } from '../../models/salaryModel';
+import salaryForm from '../../data/types/screens/salaryForm';
+import Person from '../../data/interfaces/Person';
+import { forms, base, typo } from '../../styles/index';
+import InputSum from '../shared/InputSum';
+import ApiClient from '../../server/apiClient';
 
 export default function SalaryForm ({ navigation, persons, setPersons }:salaryForm) {
     const [totalToPay, setTotalToPay] = useState<string>('');

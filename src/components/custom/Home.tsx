@@ -3,9 +3,9 @@ import { showMessage } from 'react-native-flash-message';
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import Person from '../data/interfaces/Person';
-import { forms, base, typo } from '../styles/index';
-import HomeScreen from '../data/types/screens/home';
+import Person from '../../data/interfaces/Person';
+import { forms, base, typo } from '../../styles/index';
+import HomeScreen from '../../data/types/screens/home';
 import AddPersonForm from './AddPersonForm';
 
 export default function Home({ navigation, person, setPerson, people, setPeople }: HomeScreen) {

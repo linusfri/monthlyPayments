@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-import { base, typo } from '../styles/index';
+import { base, typo } from '../../styles/index';
 
 export default function Header() {
   return (

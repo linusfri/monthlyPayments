@@ -7,10 +7,10 @@ import FlashMessage from 'react-native-flash-message';
 
 import { base } from './src/styles/index';
 import { rootParamList } from './src/data/types/rootNavigation';
-import SalaryForm from './src/components/SalaryForm';
-import Header from './src/components/Header';
+import SalaryForm from './src/components/custom/SalaryForm';
+import Header from './src/components/custom/Header';
 import Person from './src/data/interfaces/Person';
-import Home from './src/components/Home';
+import Home from './src/components/custom/Home';
 
 const Stack = createNativeStackNavigator<rootParamList>();
 

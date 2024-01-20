@@ -1,6 +1,6 @@
 import expEval from 'expression-eval';
 import Person from '../data/interfaces/Person';
-import ApiClient from './apiClient';
+import ApiClient from '../server/apiClient';
 
 /**
  * @deprecated Replaced by SalaryBackend

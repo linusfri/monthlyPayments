@@ -1,8 +1,8 @@
 import { View, Text, TextInput, TouchableOpacity } from 'react-native';
 
-import { forms, base, typo } from '../styles/index';
-import PersonForm from '../data/types/screens/AddPersonForm';
-import InputSum from './InputSum';
+import { forms, base, typo } from '../../styles/index';
+import PersonForm from '../../data/types/screens/AddPersonForm';
+import InputSum from '../shared/InputSum';
 
 export default function AddPersonForm({setPerson, person, addPerson }:PersonForm) {
     return (
