@@ -10,7 +10,7 @@ type State = {
 type Action = {
     addPerson: (newPerson: Person) => void
     deletePerson: (deleteIndex: number) => void
-    setPeople: (newPeople: Person[]) => void
+    setPeople: (people: Person[]) => void
     setCurrentActive: (person: Person) => void
 }
 
@@ -23,7 +23,7 @@ const usePeopleStore = create<StateAndAction>((set) => ({
     deletePerson: (deleteIndex) => set((state) => ({
         people: state.people.filter((person, index) => index !== deleteIndex),
     })),
-    setPeople: (newPeople) => set(() => ({people: [...newPeople]})),
+    setPeople: (people) => set(() => ({people: [...people]})),
     setCurrentActive: (person) => set(() => ({currentActive: person})),
     loading: false
 }));
