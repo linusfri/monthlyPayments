@@ -3,17 +3,22 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { useState } from 'react';
 
 import { SalaryBackend } from '../models/salaryModel';
-import salaryForm from '../data/types/screens/SalaryForm';
-import Person from '../data/interfaces/Person';
-import { forms, base, typo } from '../styles/index';
-import ApiClient from '../server/apiClient';
 import usePeopleFacade from '../store/facades/usePeopleFacade';
+import Person from '../data/interfaces/Person';
+import ApiClient from '../server/apiClient';
+import { forms, base, typo } from '../styles/index';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { rootParamList } from '../data/types/rootNavigation';
 import SalaryFields from '../components/intermediate/SalaryFields';
 import InputTotal from '../components/shared/InputTotal';
 import Results from '../components/intermediate/Results';
 import NavButton from '../components/shared/NavButton';
 
-export default function SalaryForm ({ navigation }: salaryForm) {
+type CalculationScreenProps = {
+    navigation: NativeStackNavigationProp<rootParamList>,
+}
+
+export default function SalaryForm ({ navigation }: CalculationScreenProps) {
     const [totalToPay, setTotalToPay] = useState<string>('');
     const [results, setResults] = useState<string>('');
     const {people, setPeople} = usePeopleFacade();
@@ -51,7 +56,6 @@ export default function SalaryForm ({ navigation }: salaryForm) {
             <Results value={results} calculate={() => getResults(people, totalToPay)}/>
 
             <NavButton navigation={navigation} route='Hem' text='Go back'/>
-            
-      </KeyboardAwareScrollView>
+        </KeyboardAwareScrollView>
     );
 }
