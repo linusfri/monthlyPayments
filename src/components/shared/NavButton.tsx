@@ -7,13 +7,15 @@ type NavButtonProps<T extends ParamListBase> = {
     navigation: NativeStackNavigationProp<T>
     route: string
     text: string
+    guard?: () => boolean
 };
 
-export default function NavButton<T extends ParamListBase>({ navigation, text, route }: NavButtonProps<T>) {
+export default function NavButton<T extends ParamListBase>({ navigation, text, route, guard }: NavButtonProps<T>) {
     return (
         <TouchableOpacity
             style={forms.styles.formButton}
             onPress={() => {
+                if (guard != undefined && !guard()) return;
                 navigation.navigate(route as any); //TODO, TYPE CORRECTLY
             }}
         >

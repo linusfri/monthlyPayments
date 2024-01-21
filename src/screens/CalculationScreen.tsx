@@ -1,4 +1,4 @@
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { useState } from 'react';
 
@@ -51,6 +51,7 @@ export default function SalaryForm ({ navigation }: salaryForm) {
             <Results value={results} calculate={() => getResults(people, totalToPay)}/>
 
             <NavButton navigation={navigation} route='Hem' text='Go back'/>
+            
       </KeyboardAwareScrollView>
     );
 }
