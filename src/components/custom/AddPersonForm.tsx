@@ -51,6 +51,12 @@ export default function AddPersonForm() {
 
         addPerson(newPerson);
 
+        showMessage({
+            message: 'Person added',
+            description: `${newPerson.name} was added`,
+            type: 'success'
+        });
+
         setName('');
         setSalary('');
     }
