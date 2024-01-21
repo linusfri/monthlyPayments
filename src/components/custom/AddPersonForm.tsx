@@ -5,12 +5,22 @@ import { useState } from 'react';
 import { forms, base, typo } from '../../styles/index';
 import InputSum from '../shared/InputSum';
 import Person from '../../data/interfaces/Person';
+import { SalaryBackend } from '../../models/salaryModel';
 import usePeopleFacade from '../../store/facades/usePeopleFacade';
+import ApiClient from '../../server/apiClient';
 
 export default function AddPersonForm() {
     const { people, addPerson } = usePeopleFacade();
     const [name, setName] = useState<string>('');
     const [salary, setSalary] = useState<string>('');
+
+    async function evaluate(salary: string) {
+        const salaryBackend = new SalaryBackend(new ApiClient());
+    
+        const res = await salaryBackend.evaluate(salary);
+
+        setSalary(res);
+    }
 
     function validateAndAdd() {
         const newPerson = {
@@ -67,7 +77,7 @@ export default function AddPersonForm() {
                     onChangeText={(text) => setSalary(text)}
                     value={salary}
                 />
-                {/* <InputSum entity={person} setState={setPerson}/> */}
+                <InputSum onClick={() => evaluate(salary)}/>
             </View>
             <TouchableOpacity
                 style={forms.styles.formButtonExtraPadding}

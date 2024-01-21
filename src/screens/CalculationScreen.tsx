@@ -17,9 +17,8 @@ export default function SalaryForm ({ navigation }: salaryForm) {
 
     function updatePersonSalary(newPerson:Person, listIndex: number) {
         setPeople(people.map((person, index) => {
-            if (listIndex === index) {
-                return newPerson;
-            }
+            if (listIndex === index) return newPerson;
+
             return person;
         }));
     }
@@ -63,7 +62,14 @@ export default function SalaryForm ({ navigation }: salaryForm) {
                     value={person.salary}
                     keyboardType='phone-pad'
                     />
-                    <InputSum entity={person} stateUpdateFn={updatePersonSalary} atIndex={index}/>
+                    <InputSum onClick={async () => {
+                        const updatedPerson = {
+                            ...person,
+                            salary: await new SalaryBackend(new ApiClient()).evaluate(person.salary)
+                        };
+
+                        updatePersonSalary(updatedPerson, index);
+                    }}/>
                 </View>
             </View>
         );
