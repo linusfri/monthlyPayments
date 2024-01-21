@@ -9,8 +9,12 @@ import { SalaryBackend } from '../../models/salaryModel';
 import usePeopleFacade from '../../store/facades/usePeopleFacade';
 import ApiClient from '../../server/apiClient';
 
-export default function AddPersonForm() {
-    const { people, addPerson } = usePeopleFacade();
+type AddPersonFormProps = {
+    people: Person[],
+    addPerson: (newPerson: Person) => void
+}
+
+export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
     const [name, setName] = useState<string>('');
     const [salary, setSalary] = useState<string>('');
 

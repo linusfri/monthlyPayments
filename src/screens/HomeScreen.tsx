@@ -1,59 +1,46 @@
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-import { forms, base, typo } from '../styles/index';
+import { base } from '../styles/index';
 import HomeScreen from '../data/types/screens/Home';
 import AddPersonForm from '../components/custom/AddPersonForm';
 import usePeopleFacade from '../store/facades/usePeopleFacade';
+import NavButton from '../components/shared/NavButton';
+import AddedPeople from '../components/intermediate/AddedPeople';
 
 export default function Home({ navigation }: HomeScreen) {
-    const { people, deletePerson } = usePeopleFacade();
+    const { people, deletePerson, addPerson } = usePeopleFacade();
 
-    const peopleToRender = people.map((person, index) => {
-        return (
-            <View key={index} style={forms.styles.formPerson}>
-                <Text style={typo.styles.personText}>{person.name}</Text>
-                <TouchableOpacity 
-                    style={base.styles.personBoxButton}
-                    onPress={() => {
-                        deletePerson(index);
-                    }}
-                >
-                    <Ionicons name='trash' style={base.styles.personBoxIcon}/>
-                </TouchableOpacity>
-            </View>
-        );
-    });
+    function isEnoughPeople() {
+        if (people.length >= 2) return true;
+
+        showMessage({
+            message: 'At least two people',
+            description: 'You need to add at least two people',
+            type: 'warning'
+        });
+
+        return false;
+    }
 
     return (
         <KeyboardAwareScrollView
             contentContainerStyle={base.styles.home}
             keyboardShouldPersistTaps='always'
         >
-            <AddPersonForm />
+            <AddPersonForm people={people} addPerson={addPerson} />
 
-            <TouchableOpacity
-                style={[forms.styles.formButton, base.styles.margin12LR]}
-                onPress={() => {
-                    if (people.length < 2) {
-                        showMessage({
-                            message: 'At least two people',
-                            description: 'You need to add at least two people',
-                            type: 'warning'
-                        });
-                        return;
-                    }
-                    navigation.navigate('Löneformulär');
-                }}
-            >
-                <Text style={typo.styles.buttonText}>Continue</Text>
-            </TouchableOpacity>
-
-            <View style={base.styles.peopleView}>
-                {peopleToRender}
+            <View style={base.styles.margin12LR}>
+                <NavButton
+                    navigation={navigation}
+                    route='Löneformulär'
+                    text={'Continue'}
+                    guard={isEnoughPeople}
+                />
             </View>
+
+            <AddedPeople people={people} deletePerson={deletePerson} />
         </KeyboardAwareScrollView>
     );
 }
