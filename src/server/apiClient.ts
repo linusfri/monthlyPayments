@@ -10,8 +10,6 @@ export default class ApiClient {
                 'Content-Type': 'application/json'
             }
         });
-
-        console.log(this.getBaseUrl());
     }
 
     private publicApiUrlExists() {
