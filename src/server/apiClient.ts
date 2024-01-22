@@ -11,6 +11,7 @@ export default class ApiClient {
             }
         });
 
+        console.log(this.getBaseUrl());
     }
 
     private publicApiUrlExists() {
@@ -25,21 +26,29 @@ export default class ApiClient {
         if (this.publicApiUrlExists()) {
             return process.env.EXPO_PUBLIC_API_URL as string;
         }
-        
-        const uri = Constants.expoConfig?.hostUri;
 
-        if (uri == undefined) {
+        if (!this.isHostPortEnvDefined()) throw new Error('Could not get port of development host.');
+    
+        return this.getHostAddressAndPort();
+    }
+
+    private getHostAddressAndPort() {
+        const hostUri = Constants.expoConfig?.hostUri;
+
+        if (hostUri == undefined) {
             throw new Error('Could not get address of development host.');
         }
-
-        if (process.env.EXPO_PUBLIC_LOCAL_API_PORT == undefined) {
-            throw new Error('Could not get port of development host.');
-        }
-
-        const localAddress = (uri as string).replace(new RegExp(/:\d+/), ':' + process.env.EXPO_PUBLIC_LOCAL_API_PORT);
+        
+        const localAddress = (hostUri as string).replace(new RegExp(/:\d+/), ':' + process.env.EXPO_PUBLIC_LOCAL_API_PORT);
         const protocol = process.env.EXPO_PUBLIC_LOCAL_HTTPS == 'true' ? 'https' : 'http';
-    
+
         return `${protocol}://${localAddress}`;
+    }
+
+    private isHostPortEnvDefined() {
+        if (process.env.EXPO_PUBLIC_LOCAL_API_PORT == undefined) return false;
+
+        return true;
     }
 
     async request (method: string, endpoint: string, data?: object | string) {
