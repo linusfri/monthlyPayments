@@ -31,7 +31,6 @@ export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
 
     
     async function evaluate(salary: string) {
-        console.log(salary);
         const salaryBackend = new SalaryBackend(new ApiClient());
         
         const res = await salaryBackend.evaluate(salary);
@@ -58,7 +57,7 @@ export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
     }
 
     function validateName(name: string | undefined): boolean {
-        if (name == '') {
+        if (name == '' || name == undefined) {
             showMessage({
                 message: 'No name',
                 description: 'You must enter a name',
