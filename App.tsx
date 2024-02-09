@@ -7,7 +7,7 @@ import FlashMessage from 'react-native-flash-message';
 import { base } from './src/styles/index';
 import { rootParamList } from './src/data/types/rootNavigation';
 import CalculationScreen from './src/screens/CalculationScreen';
-import Header from './src/components/custom/Header';
+import Header from './src/components/shared/Header';
 import Home from './src/screens/HomeScreen';
 
 const Stack = createNativeStackNavigator<rootParamList>();
