@@ -35,8 +35,6 @@ export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
         
         const res = await salaryBackend.evaluate(salary);
 
-        console.log(res);
-
         setValue('salary', res);
     }
 
