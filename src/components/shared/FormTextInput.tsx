@@ -3,12 +3,12 @@ import { TextInputProps } from 'react-native';
 
 import { forms, typo } from '../../styles/index';
 import FormInputAction from './FormInputAction';
-import { Controller, Control, RegisterOptions } from 'react-hook-form';
+import { Controller, Control, RegisterOptions, FieldValues } from 'react-hook-form';
 
 type FormTextInputProps = {
     name: string,
     label: string,
-    control: Control<any>,
+    control: Control<FieldValues>,
     placeholder?: string,
     rules?: Omit<RegisterOptions<any, string>, 'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'> | undefined,
     action?: () => void | Promise<void>,
