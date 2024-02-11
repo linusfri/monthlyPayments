@@ -1,16 +1,24 @@
-import { View, Text, TextInput, Keyboard } from 'react-native';
+import { Keyboard } from 'react-native';
+import { Control, FieldValues, UseFormSetValue } from 'react-hook-form';
 
 import { SalaryBackend } from '../../models/salaryModel';
-import { forms, typo } from '../../styles/index';
-import InputSum from '../../components/shared/InputSum';
 import ApiClient from '../../server/apiClient';
 import Person from '../../data/interfaces/Person';
+import FormTextInput from '../shared/FormTextInput';
+import { useEffect } from 'react';
 
 type SalaryFieldsProps = {
     people: Person[],
-    setPeople: (people: Person[]) => void
+    setPeople: (people: Person[]) => void,
+    control: Control<any>
+    setValue?: UseFormSetValue<FieldValues>
 }
-export default function SalaryFields({people, setPeople}: SalaryFieldsProps) {
+export default function SalaryFields({people, setPeople, control, setValue}: SalaryFieldsProps) {
+    useEffect(() => {
+        people.forEach((person) => {
+            setValue ? setValue(`${person.name}-salary`, person.salary) : null;
+        });
+    }, []);
 
     function updatePersonSalary(newPerson:Person, listIndex: number) {
         setPeople(people.map((person, index) => {
@@ -22,35 +30,34 @@ export default function SalaryFields({people, setPeople}: SalaryFieldsProps) {
 
     const salaryFields = people.map((person, index) => {
         return (
-            <View key={index}>
-                <Text style={typo.styles.label}>{person.name}</Text>
-                <View style={forms.styles.inputContainer}>
-                    <TextInput
-                    multiline={true}
-                    onSubmitEditing={Keyboard.dismiss}
-                    style={forms.styles.input}
-                    onChangeText={(text:string) => {
-                        updatePersonSalary(
-                            {
-                                ...person, 
-                                salary: text
-                            },
-                            index
-                        );
-                    }}
-                    value={person.salary}
-                    keyboardType='phone-pad'
-                    />
-                    <InputSum onClick={async () => {
-                        const updatedPerson = {
+            <FormTextInput
+                key={index}
+                name={`${person.name}-salary`}
+                label={`${person.name}`}
+                onSubmitEditing={Keyboard.dismiss}
+                keyboardType='phone-pad'
+                control={control}
+                extStateUpdate={(text) => {
+                    updatePersonSalary(
+                        {
                             ...person,
-                            salary: await new SalaryBackend(new ApiClient()).evaluate(person.salary)
-                        };
+                            salary: text
+                        },
+                        index
+                    );
+                }}
+                action={async () => {
+                    const updatedSalary = await new SalaryBackend(new ApiClient()).evaluate(person.salary);
+                    const updatedPerson = {
+                        ...person,
+                        salary: updatedSalary
+                    };
 
-                        updatePersonSalary(updatedPerson, index);
-                    }}/>
-                </View>
-            </View>
+                    updatePersonSalary(updatedPerson, index);
+
+                    setValue ? setValue(`${person.name}-salary`, updatedSalary) : null;
+                }}
+            />
         );
     });
 

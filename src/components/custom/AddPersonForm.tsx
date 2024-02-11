@@ -1,35 +1,33 @@
-import { View, Text, TextInput, TouchableOpacity, Button } from 'react-native';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { useEffect, useState } from 'react';
 
 import { forms, base, typo } from '../../styles/index';
-import InputSum from '../shared/InputSum';
 import Person from '../../data/interfaces/Person';
 import { SalaryBackend } from '../../models/salaryModel';
 import ApiClient from '../../server/apiClient';
-import {useForm} from 'react-hook-form';
+import { useForm, FieldValues } from 'react-hook-form';
 import FormTextInput from '../shared/FormTextInput';
+import { useEffect } from 'react';
 
 type AddPersonFormProps = {
     people: Person[],
     addPerson: (newPerson: Person) => void
 }
 
-type FormFields = {
-    name: string,
-    salary: string
-}
-
-export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
+export default function AddPersonForm({ addPerson }: AddPersonFormProps) {
     const {
         control, 
         handleSubmit,
         setValue,
         getValues,
-        formState: {errors, isValid},
+        reset,
+        formState
     } = useForm({mode: 'onBlur'});
 
-    
+    useEffect(() => {
+        reset();
+    }, [formState.isSubmitSuccessful]);
+
     async function evaluate(salary: string) {
         const salaryBackend = new SalaryBackend(new ApiClient());
         
@@ -38,7 +36,7 @@ export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
         setValue('salary', res);
     }
 
-    function submit(data: any) {
+    function submit(data: FieldValues) {
         const newPerson = {
             name: data.name,
             salary: data.salary
@@ -51,7 +49,6 @@ export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
             description: `${newPerson.name} was added`,
             type: 'success'
         });
-
     }
 
     function validateName(name: string | undefined): boolean {
@@ -70,11 +67,17 @@ export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
     function validateSalary(salary: string | undefined): boolean {
         const salaryRegex = /^(\d+)$|(\d+[-+/*]\d+)+$/;
 
-        if (salary == undefined) return false;
+        if (salary == undefined || salary == '' || !salary.match(salaryRegex)) {
+            showMessage({
+                message: 'No Salary',
+                description: 'You must enter a salary',
+                type: 'warning'
+            });
 
-        if (salary.match(salaryRegex)) return true;
+            return false;
+        }
 
-        return false;
+        return true;
     }
 
     return (
@@ -101,7 +104,9 @@ export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
             />
             <TouchableOpacity
                 style={forms.styles.formButtonExtraPadding}
-                onPress={handleSubmit(submit)}
+                onPress={handleSubmit((data) => {
+                    submit(data);
+                })}
             >
                 <Text style={typo.styles.buttonText}>Add person</Text>
             </TouchableOpacity>

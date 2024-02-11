@@ -1,39 +1,59 @@
-import {Text, TextInput, View} from 'react-native';
+import { Text, TextInput, View} from 'react-native';
+import { TextInputProps } from 'react-native';
 
 import { forms, typo } from '../../styles/index';
-import InputSum from '../shared/InputSum';
-import {Controller, Control, RegisterOptions} from 'react-hook-form';
+import FormInputAction from './FormInputAction';
+import { Controller, Control, RegisterOptions } from 'react-hook-form';
 
 type FormTextInputProps = {
     name: string,
     label: string,
-    placeholder: string,
-    rules?: Omit<RegisterOptions<any, string>, 'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'> | undefined,
     control: Control<any>,
-    action?: () => void | Promise<void>
-}
+    placeholder?: string,
+    rules?: Omit<RegisterOptions<any, string>, 'valueAsNumber' | 'valueAsDate' | 'setValueAs' | 'disabled'> | undefined,
+    action?: () => void | Promise<void>,
+    extStateUpdate?: (fieldVal: string) => void | Promise<void>
+} & Partial<TextInputProps>
 
-export default function FormTextInput({name, label, placeholder, rules, control, action}: FormTextInputProps) {
+export default function FormTextInput(
+    {
+        name,
+        label,
+        control,
+        placeholder,
+        rules,
+        action, 
+        extStateUpdate,
+        ...props
+    }: FormTextInputProps
+) {
     return (
         <Controller        
-         control={control}        
-         name={name}
-         rules={rules ? rules : {}}  
-         render={({field: {onChange, value, onBlur}}) => (
+            control={control}
+            name={name}
+            rules={rules ? rules : {}}
+            render={({field: {onChange, value, onBlur}}) => (
             <>
                 {
                     label ? <Text style={typo.styles.label}>{label}</Text> :
-                    <Text style={typo.styles.label}>Person name</Text>
+                    null
                 }  
                 <View style={forms.styles.inputContainer}>
                     <TextInput
                         style={forms.styles.input}
                         placeholder={placeholder}           
                         value={value}            
-                        onBlur={onBlur}            
-                        onChangeText={value => onChange(value)}          
+                        onBlur={onBlur}
+                        onChangeText={value => {
+                            onChange(value);
+
+                            if (extStateUpdate) {
+                                extStateUpdate(value);
+                            }
+                        }}
+                        {...props}
                     />
-                    {action && <InputSum onClick={action}/>}
+                    {action && <FormInputAction onClick={action} label='Sum'/>}
                 </View>
             </>
         )} 
