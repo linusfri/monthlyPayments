@@ -1,19 +1,21 @@
+import { useEffect } from 'react';
 import { Keyboard } from 'react-native';
-import { Control, FieldValues, UseFormSetValue } from 'react-hook-form';
+import { Control, FieldValues, UseFormSetValue, FieldErrors } from 'react-hook-form';
 
 import { SalaryBackend } from '../../models/salaryModel';
 import ApiClient from '../../server/apiClient';
 import Person from '../../data/interfaces/Person';
 import FormTextInput from '../shared/FormTextInput';
-import { useEffect } from 'react';
+import { SALARY_REGEX } from '../../constants/constants';
 
 type SalaryFieldsProps = {
     people: Person[],
     setPeople: (people: Person[]) => void,
     control: Control<any>
+    errors: FieldErrors<FieldValues>,
     setValue?: UseFormSetValue<FieldValues>
 }
-export default function SalaryFields({people, setPeople, control, setValue}: SalaryFieldsProps) {
+export default function SalaryFields({people, setPeople, control, errors, setValue}: SalaryFieldsProps) {
     useEffect(() => {
         people.forEach((person) => {
             setValue ? setValue(`${person.name}-salary`, person.salary) : null;
@@ -36,6 +38,14 @@ export default function SalaryFields({people, setPeople, control, setValue}: Sal
                 label={`${person.name}`}
                 onSubmitEditing={Keyboard.dismiss}
                 keyboardType='phone-pad'
+                rules={{
+                    pattern: SALARY_REGEX,
+                    required: {
+                        value: true,
+                        message: 'Enter salary'
+                    }
+                }}
+                errors={errors}
                 control={control}
                 extStateUpdate={(text) => {
                     updatePersonSalary(

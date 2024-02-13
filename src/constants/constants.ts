@@ -1,0 +1,1 @@
+export const SALARY_REGEX = /^(\d+)$|(\d+[-+/*]\d+)+$/;

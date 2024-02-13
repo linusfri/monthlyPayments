@@ -12,6 +12,12 @@ export default class ApiClient {
         });
     }
 
+    public static formatErrorMessage(message: string, delimiter: string): string {
+        const onePastDelimiterIndex = message.indexOf(delimiter) + 1;
+
+        return message.slice(onePastDelimiterIndex);
+    }
+
     private publicApiUrlExists() {
         if (process.env.EXPO_PUBLIC_API_URL == undefined) {
             return false;
@@ -50,10 +56,12 @@ export default class ApiClient {
     }
 
     async request (method: string, endpoint: string, data?: object | string) {
-        return await this.client.request({
+        const res = await this.client.request({
             url: endpoint,
             method,
             data
         });
+
+        return res;
     }
 }

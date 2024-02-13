@@ -1,13 +1,14 @@
+import { useEffect } from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
+import { useForm, FieldValues } from 'react-hook-form';
 
 import { forms, base, typo } from '../../styles/index';
 import Person from '../../data/interfaces/Person';
 import { SalaryBackend } from '../../models/salaryModel';
 import ApiClient from '../../server/apiClient';
-import { useForm, FieldValues } from 'react-hook-form';
 import FormTextInput from '../shared/FormTextInput';
-import { useEffect } from 'react';
+import { SALARY_REGEX } from '../../constants/constants';
 
 type AddPersonFormProps = {
     people: Person[],
@@ -21,7 +22,8 @@ export default function AddPersonForm({ addPerson }: AddPersonFormProps) {
         setValue,
         getValues,
         reset,
-        formState
+        formState,
+        formState: { errors }
     } = useForm({mode: 'onBlur'});
 
     useEffect(() => {
@@ -51,30 +53,28 @@ export default function AddPersonForm({ addPerson }: AddPersonFormProps) {
         });
     }
 
-    function validateName(name: string | undefined): boolean {
+    function validateName(name: string | undefined): boolean | string {
         if (name == '' || name == undefined) {
             showMessage({
                 message: 'No name',
                 description: 'You must enter a name',
                 type: 'warning'
             });
-            return false;
+            return 'Name must be supplied';
         }
 
         return true;
     }
 
-    function validateSalary(salary: string | undefined): boolean {
-        const salaryRegex = /^(\d+)$|(\d+[-+/*]\d+)+$/;
-
-        if (salary == undefined || salary == '' || !salary.match(salaryRegex)) {
+    function validateSalary(salary: string | undefined): boolean | string {
+        if (salary == undefined || salary == '' || !salary.match(SALARY_REGEX)) {
             showMessage({
                 message: 'No Salary',
                 description: 'You must enter a salary',
                 type: 'warning'
             });
 
-            return false;
+            return 'Salary must be supplied';
         }
 
         return true;
@@ -90,13 +90,17 @@ export default function AddPersonForm({ addPerson }: AddPersonFormProps) {
             <FormTextInput 
                 name='name'
                 label='Name'
+                errors={errors}
                 placeholder=''
                 rules={{validate: validateName}}
                 control={control}
             />
+
             <FormTextInput 
                 name='salary'
                 label='Salary'
+                errors={errors}
+                keyboardType='phone-pad'
                 placeholder=''
                 rules={{validate: validateSalary}}
                 control={control}
