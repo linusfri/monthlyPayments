@@ -1,57 +1,48 @@
-import { View, Text, TextInput, TouchableOpacity } from 'react-native';
+import { useEffect } from 'react';
+import { View, Text, TouchableOpacity } from 'react-native';
 import { showMessage } from 'react-native-flash-message';
-import { useState } from 'react';
+import { useForm, FieldValues } from 'react-hook-form';
 
 import { forms, base, typo } from '../../styles/index';
-import InputSum from '../shared/InputSum';
 import Person from '../../data/interfaces/Person';
 import { SalaryBackend } from '../../models/salaryModel';
-import usePeopleFacade from '../../store/facades/usePeopleFacade';
 import ApiClient from '../../server/apiClient';
+import FormTextInput from '../shared/FormTextInput';
+import { SALARY_REGEX } from '../../constants/constants';
 
 type AddPersonFormProps = {
     people: Person[],
     addPerson: (newPerson: Person) => void
 }
 
-export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
-    const [name, setName] = useState<string>('');
-    const [salary, setSalary] = useState<string>('');
+export default function AddPersonForm({ addPerson }: AddPersonFormProps) {
+    const {
+        control, 
+        handleSubmit,
+        setValue,
+        getValues,
+        reset,
+        formState,
+        formState: { errors }
+    } = useForm({mode: 'onBlur'});
+
+    useEffect(() => {
+        reset();
+    }, [formState.isSubmitSuccessful]);
 
     async function evaluate(salary: string) {
         const salaryBackend = new SalaryBackend(new ApiClient());
-    
+        
         const res = await salaryBackend.evaluate(salary);
 
-        setSalary(res);
+        setValue('salary', res);
     }
 
-    function validateAndAdd() {
+    function submit(data: FieldValues) {
         const newPerson = {
-            name,
-            salary
+            name: data.name,
+            salary: data.salary
         } as Person;
-
-        if (newPerson.name === '') {
-            showMessage({
-                message: 'No name',
-                description: 'You must enter a name',
-                type: 'warning'
-            });
-            return;
-        }
-
-        for (const person of people) {
-            if (person.name === newPerson.name) {
-                showMessage({
-                    message: 'Name already exists',
-                    description: 'A person with that name already exists',
-                    type: 'warning'
-                });
-    
-                return;
-            }       
-        }
 
         addPerson(newPerson);
 
@@ -60,9 +51,33 @@ export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
             description: `${newPerson.name} was added`,
             type: 'success'
         });
+    }
 
-        setName('');
-        setSalary('');
+    function validateName(name: string | undefined): boolean | string {
+        if (name == '' || name == undefined) {
+            showMessage({
+                message: 'No name',
+                description: 'You must enter a name',
+                type: 'warning'
+            });
+            return 'Name must be supplied';
+        }
+
+        return true;
+    }
+
+    function validateSalary(salary: string | undefined): boolean | string {
+        if (salary == undefined || salary == '' || !salary.match(SALARY_REGEX)) {
+            showMessage({
+                message: 'No Salary',
+                description: 'You must enter a salary',
+                type: 'warning'
+            });
+
+            return 'Salary must be supplied';
+        }
+
+        return true;
     }
 
     return (
@@ -72,26 +87,30 @@ export default function AddPersonForm({people, addPerson}: AddPersonFormProps) {
             >
                 Add person
             </Text>
-            <Text style={typo.styles.label}>Person name</Text>
-            <TextInput
-                style={forms.styles.inputAndContainer}
-                onChangeText={(text) => setName(text)}
-                value={name}
+            <FormTextInput 
+                name='name'
+                label='Name'
+                errors={errors}
+                placeholder=''
+                rules={{validate: validateName}}
+                control={control}
             />
-    
-            <Text style={typo.styles.label}>Person salary</Text>
-            <View style={forms.styles.inputContainer}>
-                <TextInput
-                    style={forms.styles.input}
-                    keyboardType={'phone-pad'}
-                    onChangeText={(text) => setSalary(text)}
-                    value={salary}
-                />
-                <InputSum onClick={() => evaluate(salary)}/>
-            </View>
+
+            <FormTextInput 
+                name='salary'
+                label='Salary'
+                errors={errors}
+                keyboardType='phone-pad'
+                placeholder=''
+                rules={{validate: validateSalary}}
+                control={control}
+                action={() => evaluate(getValues().salary)}
+            />
             <TouchableOpacity
                 style={forms.styles.formButtonExtraPadding}
-                onPress={validateAndAdd}
+                onPress={handleSubmit((data) => {
+                    submit(data);
+                })}
             >
                 <Text style={typo.styles.buttonText}>Add person</Text>
             </TouchableOpacity>

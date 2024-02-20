@@ -3,11 +3,12 @@ import { Text, TouchableOpacity } from 'react-native';
 
 import { forms, typo } from '../../styles';
 
-type InputSumProps_ = {
+type FormInputActionProps = {
+  label: string,
   onClick: () => void
 }
 
-export default function InputSum({onClick}: InputSumProps_) {
+export default function FormInputAction({onClick, label}: FormInputActionProps) {
 
   return (
       <TouchableOpacity
@@ -16,7 +17,7 @@ export default function InputSum({onClick}: InputSumProps_) {
             onClick();
           }}
       >
-          <Text style={typo.styles.textInputButtonText}>Sum</Text>
+          <Text style={typo.styles.textInputButtonText}>{label}</Text>
       </TouchableOpacity>
   );
 }

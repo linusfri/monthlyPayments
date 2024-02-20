@@ -15,6 +15,11 @@ const styles = StyleSheet.create({
         paddingRight: 10
     },
 
+    error: {
+        borderWidth: 1,
+        borderColor: 'red'
+    },
+
     inputContainer: {
         borderWidth: 1,
         minHeight: 50,
