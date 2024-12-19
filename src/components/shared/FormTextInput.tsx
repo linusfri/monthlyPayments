@@ -24,8 +24,7 @@ export default function FormTextInput(
         errors,
         placeholder,
         rules,
-        action, 
-        extStateUpdate,
+        action,
         ...props
     }: FormTextInputProps
 ) {
@@ -65,10 +64,6 @@ export default function FormTextInput(
                         value={value}            
                         onChangeText={value => {
                             onChange(value);
-
-                            if (extStateUpdate) {
-                                extStateUpdate(value);
-                            }
                         }}
                         {...props}
                     />

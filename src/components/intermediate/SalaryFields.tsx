@@ -43,19 +43,19 @@ export default function SalaryFields({people, setPeople, control, errors, setVal
                     required: {
                         value: true,
                         message: 'Enter salary'
+                    },
+                    onChange: (event) => {
+                        updatePersonSalary(
+                            {
+                                ...person,
+                                salary: event.target.value
+                            },
+                            index
+                        );
                     }
                 }}
                 errors={errors}
                 control={control}
-                extStateUpdate={(text) => {
-                    updatePersonSalary(
-                        {
-                            ...person,
-                            salary: text
-                        },
-                        index
-                    );
-                }}
                 action={async () => {
                     const updatedSalary = await new SalaryBackend(new ApiClient()).evaluate(person.salary);
                     const updatedPerson = {
