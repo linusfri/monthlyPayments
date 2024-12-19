@@ -1,10 +1,10 @@
 import { Text } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useForm, FieldValues } from 'react-hook-form';
 
 import { SalaryBackend } from '../models/salaryModel';
-import usePeopleFacade from '../store/facades/usePeopleFacade';
+import usePeopleStore from '../store/usePeopleStore';
 import ApiClient from '../server/apiClient';
 import { forms, base, typo } from '../styles/index';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
@@ -28,7 +28,7 @@ export default function SalaryForm ({ navigation }: CalculationScreenProps) {
     } = useForm({ mode: 'onBlur' });
 
     const [results, setResults] = useState<string>('');
-    const {people, setPeople} = usePeopleFacade();
+    const {people, setPeople} = usePeopleStore();
 
     async function getResults(formData: FieldValues) {
         const salaryBackend = new SalaryBackend(new ApiClient());
